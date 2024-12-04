@@ -9,8 +9,8 @@ type SideNavProps = {
 
 const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
     return (
-        <div className='hidden h-screen w-52 flex-col bg-white p-10 shadow-md md:block'>
-            <img src={Logo} width={50} className='mx-auto mb-4' alt='Logo' />
+        <div className='hidden h-screen w-52 flex-col bg-white px-7 pt-8 shadow-xl md:block'>
+            <img src={Logo} width={50} className='mx-auto mb-11' alt='Logo' />
 
             <div className='font-xs flex flex-col items-start gap-1 text-[#7a7a7a]'>
                 {tabLinks.map((tab) => (
@@ -22,7 +22,7 @@ const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
                         }`}
                     >
                         {tab.icon}
-                        <span className='ml-2 font-medium'>{tab.name}</span>
+                        <span className='ml-2 font-pops text-sm font-medium'>{tab.name}</span>
                     </Link>
                 ))}
             </div>

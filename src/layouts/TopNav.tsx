@@ -10,14 +10,14 @@ type TopNavProps = {
 
 const TopNav = ({ headerTitle }: TopNavProps) => {
     return (
-        <div className='flex justify-between gap-1'>
-            <div className='flex basis-2/5 items-center md:basis-3/5'>
+        <div className='flex justify-between gap-1 pb-5'>
+            <div className='flex items-center md:basis-[63%]'>
                 <GiHamburgerMenu className='mx-1 size-6 items-center justify-center md:hidden' />
                 <h1 className='hidden text-[22px] font-bold md:block'>
                     {headerTitle}
                 </h1>
             </div>
-            <div className='flex basis-3/5 justify-between gap-2 md:basis-2/5'>
+            <div className='flex justify-between gap-2 md:basis-[37%]'>
                 <div className='flex w-full items-center rounded-3xl bg-white md:w-3/4'>
                     <MdSearch className='mx-2 size-6' />
                     <input
