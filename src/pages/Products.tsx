@@ -7,8 +7,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { FaRegEdit } from 'react-icons/fa'
-import { FaRegTrashAlt } from 'react-icons/fa'
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
+import { FiPlusCircle } from 'react-icons/fi'
 
 const TABLE_HEAD_TITLES: string[] = [
     'Product Code',
@@ -54,12 +54,14 @@ const INVENTORY_ITEMS: InventoryProductProps[] = [
 
 const Products = () => {
     return (
-        <div className='flex flex-col gap-4 items-end'>
+        <div className='flex flex-col items-end gap-4'>
             <div className='flex flex-row gap-2'>
-                <Button className='border- bg-transparent border border-red-600 text-red-600 font-sans font-medium text-[13px]'>
+                <Button className='border- border border-red-600 bg-transparent font-sans text-[13px] font-medium text-red-600 hover:bg-transparent'>
+                    <FiPlusCircle className='size-auto' />
                     Add Bulk Product
                 </Button>
-                <Button className='bg-red-700 text-white font-sans font-medium text-[13px]'>
+                <Button className='bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'>
+                    <FiPlusCircle className='size-auto' />
                     Add Bulk Product
                 </Button>
             </div>
@@ -104,7 +106,7 @@ const Products = () => {
                             <TableCell className='px-3 py-4 text-black'>
                                 {item.totalOut}
                             </TableCell>
-                            <TableCell className='flex flex-row px-3'>
+                            <TableCell className='flex flex-row mx-5 gap-2 justify-end'>
                                 <FaRegEdit className='size-7 rounded-full bg-[#85b98c] p-2 text-white' />
                                 <FaRegTrashAlt className='size-7 rounded-full bg-[#b55252] p-2 text-white' />
                             </TableCell>

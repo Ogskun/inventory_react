@@ -31,7 +31,7 @@ type InventoryProductProps = {
 
 const INVENTORY_ITEMS: InventoryProductProps[] = [
     {
-        productCode: '00001',
+        productCode: '00002',
         productType: 'string',
         make: 'string',
         makeModel: 'string',
@@ -41,7 +41,7 @@ const INVENTORY_ITEMS: InventoryProductProps[] = [
         stocks: 0,
     },
     {
-        productCode: '00002',
+        productCode: '00003',
         productType: 'string',
         make: 'string',
         makeModel: 'string',
