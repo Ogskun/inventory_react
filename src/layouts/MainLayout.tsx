@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import { FiPackage } from "react-icons/fi";
+import { FiPackage } from 'react-icons/fi'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import { ReactNode } from 'react'
@@ -43,7 +43,7 @@ const MainLayout = () => {
     return (
         <div className='flex'>
             <SideNav tabLinks={TABLINKS} isActive={isActive} />
-            <div className='mx-4 md:mx-8 my-8 flex w-full flex-col gap-4'>
+            <div className='mx-4 my-8 flex w-full flex-col gap-4 md:mx-8'>
                 <TopNav headerTitle={headerTitle} />
                 <Outlet />
             </div>

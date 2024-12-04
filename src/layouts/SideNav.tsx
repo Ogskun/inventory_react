@@ -22,7 +22,9 @@ const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
                         }`}
                     >
                         {tab.icon}
-                        <span className='ml-2 font-pops text-sm font-medium'>{tab.name}</span>
+                        <span className='ml-2 font-pops text-sm font-medium'>
+                            {tab.name}
+                        </span>
                     </Link>
                 ))}
             </div>
