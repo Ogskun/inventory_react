@@ -34,8 +34,8 @@ const TABLINKS: TabLinkProps[] = [
 
 const MainLayout = () => {
     const location = useLocation()
-    const isActive: (path: string) => boolean = (path) => location.pathname === path
-
+    const isActive: (path: string) => boolean = (path) =>
+        location.pathname === path
 
     const activeTab = TABLINKS.find((tab) => location.pathname == tab.link)
     const headerTitle = activeTab ? activeTab.title : 'INVENTORY'

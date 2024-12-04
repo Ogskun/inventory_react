@@ -9,8 +9,7 @@ type SideNavProps = {
 
 const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
     return (
-        <div className='hidden h-screen w-52 flex-col bg-white shadow-md md:block p-10'>
-
+        <div className='hidden h-screen w-52 flex-col bg-white p-10 shadow-md md:block'>
             <img src={Logo} width={50} className='mx-auto mb-4' alt='Logo' />
 
             <div className='font-xs flex flex-col items-start gap-1 text-[#7a7a7a]'>
