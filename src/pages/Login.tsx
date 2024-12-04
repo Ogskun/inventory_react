@@ -1,13 +1,13 @@
-import Logo from '../assets/logo-python.png'
+import Logo from '@/assets/logo-python.png'
 
 const Login = () => {
     return (
         <div className='flex h-screen items-center justify-center'>
             <div className='w-[360px] rounded bg-white p-[30px] text-center shadow-md'>
-                <div className='mx-auto w-[50px]'>
-                    <img src={Logo} />
-                </div>
-                <h4 className='mb-5 mt-1 font-medium'>Login to your account</h4>
+
+                <img src={Logo} className='w-[50px] mx-auto' />
+
+                <h4 className='mt-2 mb-4 text-sm font-pops font-medium'>Login to your account</h4>
 
                 <form method='POST' className='flex flex-col gap-4'>
                     <input
