@@ -62,7 +62,7 @@ const Products = () => {
                 </Button>
                 <Button className='bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'>
                     <FiPlusCircle className='size-auto' />
-                    Add Bulk Product
+                    Add Product
                 </Button>
             </div>
 

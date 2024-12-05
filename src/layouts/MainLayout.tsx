@@ -8,7 +8,6 @@ export type TabLinkProps = {
     name: string
     link: string
     icon: ReactNode
-    title: string
 }
 
 const TABLINKS: TabLinkProps[] = [
@@ -16,20 +15,29 @@ const TABLINKS: TabLinkProps[] = [
         name: 'Inventory',
         link: '/',
         icon: <FiPackage className='my-3' />,
-        title: 'INVENTORY',
     },
     {
         name: 'Products',
         link: '/products',
         icon: <FiPackage className='my-3' />,
-        title: 'PRODUCTS',
     },
     {
         name: 'In / Out',
         link: '/in-out',
         icon: <FiPackage className='my-3' />,
-        title: 'IN/OUT',
     },
+]
+
+type TopNavTitleProps = {
+    path: string
+    title: string
+}
+
+const TOP_NAV_TITLES: TopNavTitleProps[] = [
+    { path: '/', title: 'INVENTORY' },
+    { path: '/products', title: 'PRODUCTS' },
+    { path: '/in-out', title: 'INVENTORY' },
+    { path: '/profile', title: 'PROFILE' },
 ]
 
 const MainLayout = () => {
@@ -37,8 +45,9 @@ const MainLayout = () => {
     const isActive: (path: string) => boolean = (path) =>
         location.pathname === path
 
-    const activeTab = TABLINKS.find((tab) => location.pathname == tab.link)
-    const headerTitle = activeTab ? activeTab.title : 'INVENTORY'
+    const headerTitle =
+        TOP_NAV_TITLES.find((page) => location.pathname == page.path)?.title ??
+        'INVENTORY'
 
     return (
         <div className='flex'>
