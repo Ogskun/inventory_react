@@ -1,11 +1,6 @@
 import Logo from '../assets/logo-python.png'
 import { Link } from 'react-router-dom'
-import { TabLinkProps } from './MainLayout'
-
-type SideNavProps = {
-    tabLinks: TabLinkProps[]
-    isActive: (path: string) => boolean
-}
+import { SideNavProps } from './types'
 
 const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
     return (

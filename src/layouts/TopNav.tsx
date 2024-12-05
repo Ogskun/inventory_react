@@ -3,10 +3,7 @@ import { FaGear } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
-
-type TopNavProps = {
-    headerTitle: string
-}
+import { TopNavProps } from './types'
 
 const TopNav = ({ headerTitle }: TopNavProps) => {
     return (

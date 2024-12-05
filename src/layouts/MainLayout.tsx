@@ -1,44 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import { FiPackage } from 'react-icons/fi'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
-import { ReactNode } from 'react'
-
-export type TabLinkProps = {
-    name: string
-    link: string
-    icon: ReactNode
-}
-
-const TABLINKS: TabLinkProps[] = [
-    {
-        name: 'Inventory',
-        link: '/',
-        icon: <FiPackage className='my-3' />,
-    },
-    {
-        name: 'Products',
-        link: '/products',
-        icon: <FiPackage className='my-3' />,
-    },
-    {
-        name: 'In / Out',
-        link: '/in-out',
-        icon: <FiPackage className='my-3' />,
-    },
-]
-
-type TopNavTitleProps = {
-    path: string
-    title: string
-}
-
-const TOP_NAV_TITLES: TopNavTitleProps[] = [
-    { path: '/', title: 'INVENTORY' },
-    { path: '/products', title: 'PRODUCTS' },
-    { path: '/in-out', title: 'INVENTORY' },
-    { path: '/profile', title: 'PROFILE' },
-]
+import { TAB_LINKS, TOP_NAV_TITLES } from './constants'
 
 const MainLayout = () => {
     const location = useLocation()
@@ -51,7 +14,7 @@ const MainLayout = () => {
 
     return (
         <div className='flex'>
-            <SideNav tabLinks={TABLINKS} isActive={isActive} />
+            <SideNav tabLinks={TAB_LINKS} isActive={isActive} />
             <div className='mx-4 my-8 flex w-full flex-col gap-4 md:mx-8'>
                 <TopNav headerTitle={headerTitle} />
                 <Outlet />
