@@ -10,28 +10,36 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
+import { useState } from 'react'
 
-const schema = z.object({
-    firstName: z
+const GENERAL_INFORMATION_VALIDATION = z.object({
+    first_name: z
         .string()
         .trim()
         .min(1, { message: 'Please fill out this field.' }),
-    lastName: z
+    last_name: z
         .string()
         .trim()
         .min(1, { message: 'Please fill out this field.' }),
 })
 
-type Schema = z.infer<typeof schema>
+type GENERAL_INFORMATION_VALUES = z.infer<typeof GENERAL_INFORMATION_VALIDATION>
 
 const Profile = () => {
-    const form = useForm<Schema>({
-        resolver: zodResolver(schema),
+    const form = useForm<GENERAL_INFORMATION_VALUES>({
+        resolver: zodResolver(GENERAL_INFORMATION_VALIDATION),
         defaultValues: {
-            firstName: '',
-            lastName: '',
+            first_name: '',
+            last_name: '',
         },
     })
+
+    const [isEditable, setIsEditable] = useState(false)
+
+    const toggleIsEditable = () => {
+        setIsEditable(!isEditable)
+        form.reset()
+    }
 
     return (
         <div className='flex flex-col gap-8'>
@@ -39,28 +47,48 @@ const Profile = () => {
             <div className='rounded-sm bg-white p-7'>
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit((data) =>
+                        onSubmit={form.handleSubmit((data) => {
                             console.log(data)
-                        )}
+                            form.reset()
+                        })}
                     >
                         <div className='mb-4 flex justify-between'>
                             <h1 className='font-sans text-[15px] font-extrabold'>
                                 General Information
                             </h1>
-                            <div className='flex gap-3'>
-                                <button
-                                    type='submit'
-                                    className='bg-transparent font-sans text-sm text-blue-600'
-                                >
-                                    Edit
-                                </button>
+                            <div>
+                                {isEditable ? (
+                                    <div className='flex gap-3'>
+                                        <button
+                                            type='submit'
+                                            className='bg-transparent font-sans text-sm text-blue-600'
+                                        >
+                                            Save Changes
+                                        </button>
+                                        <button
+                                            onClick={toggleIsEditable}
+                                            type='button'
+                                            className='bg-transparent font-sans text-sm text-blue-600'
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={toggleIsEditable}
+                                        type='button'
+                                        className='bg-transparent font-sans text-sm text-blue-600'
+                                    >
+                                        Edit
+                                    </button>
+                                )}
                             </div>
                         </div>
                         <div className='grid grid-flow-row grid-rows-1 gap-5 md:grid-flow-col md:grid-rows-2 lg:grid-rows-1'>
                             <div className='flex flex-col'>
                                 <FormField
                                     control={form.control}
-                                    name='firstName'
+                                    name='first_name'
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>
@@ -69,7 +97,7 @@ const Profile = () => {
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]'
+                                                    className={`px-3 py-5 text-[#989898] ${isEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -80,7 +108,7 @@ const Profile = () => {
                             <div className='flex flex-col'>
                                 <FormField
                                     control={form.control}
-                                    name='lastName'
+                                    name='last_name'
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>
@@ -89,7 +117,7 @@ const Profile = () => {
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]'
+                                                    className={`px-3 py-5 text-[#989898] ${isEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
                                                 />
                                             </FormControl>
                                             <FormMessage />
