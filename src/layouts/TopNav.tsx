@@ -7,7 +7,7 @@ import { TopNavProps } from './types'
 
 const TopNav = ({ headerTitle }: TopNavProps) => {
     return (
-        <div className='flex justify-between gap-1 pb-5'>
+        <div className='flex justify-between gap-1 mb-2'>
             <div className='flex items-center md:basis-[63%]'>
                 <GiHamburgerMenu className='mx-1 size-6 items-center justify-center md:hidden' />
                 <h1 className='hidden text-[22px] font-bold md:block'>

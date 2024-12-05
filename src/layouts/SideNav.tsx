@@ -4,7 +4,7 @@ import { SideNavProps } from './types'
 
 const SideNav = ({ tabLinks, isActive }: SideNavProps) => {
     return (
-        <div className='hidden h-screen w-52 flex-col bg-white px-7 pt-8 shadow-xl md:block'>
+        <div className='hidden h-screen w-52 flex-col bg-white px-7 pt-8 shadow-xl lg:block'>
             <img src={Logo} width={50} className='mx-auto mb-11' alt='Logo' />
 
             <div className='font-xs flex flex-col items-start gap-1 text-[#7a7a7a]'>
