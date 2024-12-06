@@ -23,33 +23,61 @@ const GENERAL_INFORMATION_VALIDATION = z.object({
         .min(1, { message: 'Please fill out this field.' }),
 })
 
+const CHANGE_PASSWORD_VALIDATION = z.object({
+    password: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
+    // new_password: z
+    //     .string()
+    //     .trim()
+    //     .min(1, { message: 'Please fill out this field.' }),
+})
+
 type GENERAL_INFORMATION_VALUES = z.infer<typeof GENERAL_INFORMATION_VALIDATION>
+type CHANGE_PASSWORD_VALUES = z.infer<typeof CHANGE_PASSWORD_VALIDATION>
 
 const Profile = () => {
-    const form = useForm<GENERAL_INFORMATION_VALUES>({
+    const genInfoForm = useForm<GENERAL_INFORMATION_VALUES>({
         resolver: zodResolver(GENERAL_INFORMATION_VALIDATION),
         defaultValues: {
             first_name: '',
             last_name: '',
         },
     })
+    const changePassForm = useForm<CHANGE_PASSWORD_VALUES>({
+        resolver: zodResolver(CHANGE_PASSWORD_VALIDATION),
+        defaultValues: {
+            password: '',
+            // new_password: '',
+        },
+    })
 
-    const [isEditable, setIsEditable] = useState(false)
+    const [toggles, setToggles] = useState({
+        IsGenInfoEditable: false,
+        IsChangePassEditable: false,
+    })
 
-    const toggleIsEditable = () => {
-        setIsEditable(!isEditable)
-        form.reset()
+    const setToggleState = (key: keyof typeof toggles) => {
+        setToggles((prev) => {
+            const newState = { ...prev, [key]: !prev[key] }
+
+            if (key == 'IsGenInfoEditable') genInfoForm.reset()
+            if (key == 'IsChangePassEditable') changePassForm.reset()
+
+            return newState
+        })
     }
 
     return (
         <div className='flex flex-col gap-8'>
             {/* General info */}
             <div className='rounded-sm bg-white p-7'>
-                <Form {...form}>
+                <Form {...genInfoForm}>
                     <form
-                        onSubmit={form.handleSubmit((data) => {
-                            console.log(data)
-                            form.reset()
+                        onSubmit={genInfoForm.handleSubmit(() => {
+                            genInfoForm.reset()
+                            setToggleState('IsGenInfoEditable')
                         })}
                     >
                         <div className='mb-4 flex justify-between'>
@@ -57,7 +85,7 @@ const Profile = () => {
                                 General Information
                             </h1>
                             <div>
-                                {isEditable ? (
+                                {toggles.IsGenInfoEditable ? (
                                     <div className='flex gap-3'>
                                         <button
                                             type='submit'
@@ -66,7 +94,7 @@ const Profile = () => {
                                             Save Changes
                                         </button>
                                         <button
-                                            onClick={toggleIsEditable}
+                                            onClick={() => setToggleState('IsGenInfoEditable')}
                                             type='button'
                                             className='bg-transparent font-sans text-sm text-blue-600'
                                         >
@@ -75,7 +103,7 @@ const Profile = () => {
                                     </div>
                                 ) : (
                                     <button
-                                        onClick={toggleIsEditable}
+                                        onClick={() => setToggleState('IsGenInfoEditable')}
                                         type='button'
                                         className='bg-transparent font-sans text-sm text-blue-600'
                                     >
@@ -87,7 +115,7 @@ const Profile = () => {
                         <div className='grid grid-flow-row grid-rows-1 gap-5 md:grid-flow-col md:grid-rows-2 lg:grid-rows-1'>
                             <div className='flex flex-col'>
                                 <FormField
-                                    control={form.control}
+                                    control={genInfoForm.control}
                                     name='first_name'
                                     render={({ field }) => (
                                         <FormItem>
@@ -97,7 +125,7 @@ const Profile = () => {
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    className={`px-3 py-5 text-[#989898] ${isEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
+                                                    className={`px-3 py-5 text-[#989898] ${toggles.IsGenInfoEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -107,7 +135,7 @@ const Profile = () => {
                             </div>
                             <div className='flex flex-col'>
                                 <FormField
-                                    control={form.control}
+                                    control={genInfoForm.control}
                                     name='last_name'
                                     render={({ field }) => (
                                         <FormItem>
@@ -117,7 +145,7 @@ const Profile = () => {
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    className={`px-3 py-5 text-[#989898] ${isEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
+                                                    className={`px-3 py-5 text-[#989898] ${toggles.IsGenInfoEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -148,25 +176,69 @@ const Profile = () => {
 
             {/* Change password */}
             <div className='rounded-sm bg-white p-7'>
-                <div className='mb-4 flex justify-between'>
-                    <h1 className='font-sans text-[15px] font-extrabold'>
-                        ChangePassword
-                    </h1>
-                    <button className='bg-transparent font-sans text-sm text-blue-600'>
-                        Change Password
-                    </button>
-                </div>
-                <div className='grid grid-flow-row grid-rows-1 gap-5 md:grid-flow-col md:grid-cols-2 lg:grid-cols-4'>
-                    <div className='flex flex-col gap-1'>
-                        <p className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>
-                            Password
-                        </p>
-                        <Input
-                            className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]'
-                            placeholder='********'
-                        />
-                    </div>
-                </div>
+                <Form {...changePassForm}>
+                    <form onSubmit={changePassForm.handleSubmit(() => {
+                        changePassForm.reset()
+                        setToggleState('IsChangePassEditable')
+                    })}>
+                        <div className='mb-4 flex justify-between'>
+                            <h1 className='font-sans text-[15px] font-extrabold'>
+                                ChangePassword
+                            </h1>
+                            <div>
+                                {toggles.IsChangePassEditable ? (
+                                    <div className='flex gap-3'>
+                                        <button
+                                            type='submit'
+                                            className='bg-transparent font-sans text-sm text-blue-600'
+                                        >
+                                            Save Changes
+                                        </button>
+                                        <button
+                                            onClick={() => setToggleState('IsChangePassEditable')}
+                                            type='button'
+                                            className='bg-transparent font-sans text-sm text-blue-600'
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={() => setToggleState('IsChangePassEditable')}
+                                        type='button'
+                                        className='bg-transparent font-sans text-sm text-blue-600'
+                                    >
+                                        Change Password
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div className='grid grid-flow-row grid-rows-1 gap-5 md:grid-flow-col md:grid-cols-2 lg:grid-cols-4'>
+                            <div className='flex flex-col gap-1'>
+                                <div className='flex flex-col'>
+                                    <FormField
+                                        control={changePassForm.control}
+                                        name='password'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel></FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        type='password'
+                                                        className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]'
+                                                        placeholder='********'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </Form>
             </div>
         </div>
     )
