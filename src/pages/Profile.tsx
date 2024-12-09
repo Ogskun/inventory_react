@@ -11,6 +11,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { useState } from 'react'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const GENERAL_INFORMATION_VALIDATION = z.object({
     first_name: z
@@ -24,14 +25,18 @@ const GENERAL_INFORMATION_VALIDATION = z.object({
 })
 
 const CHANGE_PASSWORD_VALIDATION = z.object({
-    password: z
+    current_password: z
         .string()
         .trim()
         .min(1, { message: 'Please fill out this field.' }),
-    // new_password: z
-    //     .string()
-    //     .trim()
-    //     .min(1, { message: 'Please fill out this field.' }),
+    new_password: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
+    confirm_password: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
 })
 
 type GENERAL_INFORMATION_VALUES = z.infer<typeof GENERAL_INFORMATION_VALIDATION>
@@ -48,8 +53,9 @@ const Profile = () => {
     const changePassForm = useForm<CHANGE_PASSWORD_VALUES>({
         resolver: zodResolver(CHANGE_PASSWORD_VALIDATION),
         defaultValues: {
-            password: '',
-            // new_password: '',
+            current_password: '',
+            new_password: '',
+            confirm_password: '',
         },
     })
 
@@ -68,6 +74,8 @@ const Profile = () => {
             return newState
         })
     }
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div className='flex flex-col gap-8'>
@@ -179,6 +187,7 @@ const Profile = () => {
                 <Form {...changePassForm}>
                     <form onSubmit={changePassForm.handleSubmit(() => {
                         changePassForm.reset()
+                        setShowPassword(false)
                         setToggleState('IsChangePassEditable')
                     })}>
                         <div className='mb-4 flex justify-between'>
@@ -214,28 +223,85 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className='grid grid-flow-row grid-rows-1 gap-5 md:grid-flow-col md:grid-cols-2 lg:grid-cols-4'>
-                            <div className='flex flex-col gap-1'>
+                            {toggles.IsChangePassEditable ? (
+                                <>
+                                    <div className='flex flex-col'>
+                                        <FormField
+                                            control={changePassForm.control}
+                                            name='current_password'
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>Current Password</FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative w-full">
+                                                            <Input
+                                                                {...field}
+                                                                type={showPassword ? "text" : "password"}
+                                                                className={`w-full px-3 py-5 text-[#989898] ${toggles.IsChangePassEditable ? "border" : "border-none bg-[#f7f7f7]"
+                                                                    } pr-10`}
+                                                            />
+                                                            <span
+                                                                onClick={() => setShowPassword(!showPassword)}
+                                                                className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                                                            >
+                                                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                                            </span>
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <FormField
+                                            control={changePassForm.control}
+                                            name='new_password'
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>New Password</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            type='password'
+                                                            className={`px-3 py-5 text-[#989898] ${toggles.IsChangePassEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <FormField
+                                            control={changePassForm.control}
+                                            name='confirm_password'
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>Confirm Password</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            type='password'
+                                                            className={`px-3 py-5 text-[#989898] ${toggles.IsChangePassEditable ? 'border' : 'border-none bg-[#f7f7f7]'}`}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
                                 <div className='flex flex-col'>
-                                    <FormField
-                                        control={changePassForm.control}
-                                        name='password'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel></FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        type='password'
-                                                        className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]'
-                                                        placeholder='********'
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                    <div className='space-y-2'>
+                                        <p className='font-sans text-[12px] font-extrabold leading-6 text-[#0000008a]'>
+                                            Password
+                                        </p>
+                                        <Input type='password' placeholder='********' className='border-none bg-[#f7f7f7] px-3 py-5 text-[#989898]' />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </form>
                 </Form>
