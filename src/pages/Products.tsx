@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import {
     Table,
     TableBody,
@@ -9,6 +10,7 @@ import {
 } from '@/components/ui/table'
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
 import { FiPlusCircle } from 'react-icons/fi'
+import AddProductForm from '@/components/modals/AddProductForm'
 
 const TABLE_HEAD_TITLES: string[] = [
     'Product Code',
@@ -60,10 +62,16 @@ const Products = () => {
                     <FiPlusCircle className='size-auto' />
                     Add Bulk Product
                 </Button>
-                <Button className='bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'>
-                    <FiPlusCircle className='size-auto' />
-                    Add Product
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button className='bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'>
+                            <FiPlusCircle className='size-auto' />
+                            Add Product
+                        </Button>
+                    </DialogTrigger>
+
+                    <AddProductForm />
+                </Dialog>
             </div>
 
             <Table className='w-full bg-white p-1'>
