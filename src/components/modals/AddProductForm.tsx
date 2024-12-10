@@ -31,6 +31,18 @@ const ADD_PRODUCT_VALIDATION = z.object({
         .string()
         .trim()
         .min(1, { message: 'Please fill out this field.' }),
+    item_name: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
+    reorder_pt: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
+    remarks: z
+        .string()
+        .trim()
+        .min(1, { message: 'Please fill out this field.' }),
 })
 
 type ADD_PRODUCT_VALUES = z.infer<typeof ADD_PRODUCT_VALIDATION>
@@ -43,13 +55,18 @@ const AddProductForm = () => {
             product_type: '',
             product_make: '',
             product_make_model: '',
+            item_name: '',
+            reorder_pt: '',
+            remarks: '',
         },
     })
 
     return (
         <DialogContent className='w-[670px] max-w-full'>
             <DialogHeader>
-                <DialogTitle className='text-'>ADD PRODUCT</DialogTitle>
+                <DialogTitle className='text-xl font-extrabold'>
+                    ADD PRODUCT
+                </DialogTitle>
             </DialogHeader>
 
             <Form {...addProductForm}>
@@ -58,13 +75,15 @@ const AddProductForm = () => {
                         console.log('submitted')
                     )}
                 >
-                    <div className='grid-row-1 md:grid-flow-2 grid grid-flow-row gap-2 md:grid-flow-col'>
+                    <div className='grid-col-1 grid grid-flow-row gap-4 md:grid-cols-2'>
                         <FormField
                             control={addProductForm.control}
                             name='product_code'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Product Code</FormLabel>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Product Code
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -78,7 +97,9 @@ const AddProductForm = () => {
                             name='product_type'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Product Type</FormLabel>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Product Type
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -92,7 +113,9 @@ const AddProductForm = () => {
                             name='product_make'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Make</FormLabel>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Make
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -106,7 +129,57 @@ const AddProductForm = () => {
                             name='product_make_model'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Make Model</FormLabel>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Make Model
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={addProductForm.control}
+                            name='item_name'
+                            render={({ field }) => (
+                                <FormItem className='md:col-span-2'>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Item Name
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={addProductForm.control}
+                            name='reorder_pt'
+                            render={({ field }) => (
+                                <FormItem className='md:col-span-2'>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Reorder PT
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={addProductForm.control}
+                            name='remarks'
+                            render={({ field }) => (
+                                <FormItem className='md:col-span-2'>
+                                    <FormLabel className='text-[12.5px] font-extrabold text-[#0000008a]'>
+                                        Remarks
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -116,12 +189,14 @@ const AddProductForm = () => {
                         />
                     </div>
 
-                    <Button
-                        type='submit'
-                        className='relative mt-2 w-[150px] bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'
-                    >
-                        Add
-                    </Button>
+                    <div className='flex justify-end'>
+                        <Button
+                            type='submit'
+                            className='mt-4 w-[150px] bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'
+                        >
+                            Add
+                        </Button>
+                    </div>
                 </form>
             </Form>
         </DialogContent>
