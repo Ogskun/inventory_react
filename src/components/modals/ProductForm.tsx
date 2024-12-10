@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '../ui/button'
 
-const ADD_PRODUCT_VALIDATION = z.object({
+const PRODUCT_FORM_VALIDATION = z.object({
     product_code: z
         .string()
         .trim()
@@ -45,11 +45,16 @@ const ADD_PRODUCT_VALIDATION = z.object({
         .min(1, { message: 'Please fill out this field.' }),
 })
 
-type ADD_PRODUCT_VALUES = z.infer<typeof ADD_PRODUCT_VALIDATION>
+type PRODUCT_FORM_VALUES = z.infer<typeof PRODUCT_FORM_VALIDATION>
 
-const AddProductForm = () => {
-    const addProductForm = useForm<ADD_PRODUCT_VALUES>({
-        resolver: zodResolver(ADD_PRODUCT_VALIDATION),
+type ProductFormProps = {
+    title: string
+    buttonText: string
+}
+
+const ProductForm = ({ title, buttonText }: ProductFormProps) => {
+    const productForm = useForm<PRODUCT_FORM_VALUES>({
+        resolver: zodResolver(PRODUCT_FORM_VALIDATION),
         defaultValues: {
             product_code: '',
             product_type: '',
@@ -64,20 +69,20 @@ const AddProductForm = () => {
     return (
         <DialogContent className='w-[670px] max-w-full'>
             <DialogHeader>
-                <DialogTitle className='text-xl font-extrabold'>
-                    ADD PRODUCT
+                <DialogTitle className='text-xl font-extrabold uppercase'>
+                    {title}
                 </DialogTitle>
             </DialogHeader>
 
-            <Form {...addProductForm}>
+            <Form {...productForm}>
                 <form
-                    onSubmit={addProductForm.handleSubmit(() =>
+                    onSubmit={productForm.handleSubmit(() =>
                         console.log('submitted')
                     )}
                 >
                     <div className='grid-col-1 grid grid-flow-row gap-4 md:grid-cols-2'>
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='product_code'
                             render={({ field }) => (
                                 <FormItem>
@@ -93,7 +98,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='product_type'
                             render={({ field }) => (
                                 <FormItem>
@@ -109,7 +114,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='product_make'
                             render={({ field }) => (
                                 <FormItem>
@@ -125,7 +130,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='product_make_model'
                             render={({ field }) => (
                                 <FormItem>
@@ -141,7 +146,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='item_name'
                             render={({ field }) => (
                                 <FormItem className='md:col-span-2'>
@@ -157,7 +162,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='reorder_pt'
                             render={({ field }) => (
                                 <FormItem className='md:col-span-2'>
@@ -173,7 +178,7 @@ const AddProductForm = () => {
                         />
 
                         <FormField
-                            control={addProductForm.control}
+                            control={productForm.control}
                             name='remarks'
                             render={({ field }) => (
                                 <FormItem className='md:col-span-2'>
@@ -194,7 +199,7 @@ const AddProductForm = () => {
                             type='submit'
                             className='mt-4 w-[150px] bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'
                         >
-                            Add
+                            {buttonText}
                         </Button>
                     </div>
                 </form>
@@ -203,4 +208,4 @@ const AddProductForm = () => {
     )
 }
 
-export default AddProductForm
+export default ProductForm

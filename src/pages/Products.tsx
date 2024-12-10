@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table'
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
 import { FiPlusCircle } from 'react-icons/fi'
-import AddProductForm from '@/components/modals/AddProductForm'
+import ProductForm from '@/components/modals/ProductForm'
 
 const TABLE_HEAD_TITLES: string[] = [
     'Product Code',
@@ -57,7 +57,7 @@ const INVENTORY_ITEMS: InventoryProductProps[] = [
 const Products = () => {
     return (
         <div className='flex flex-col items-end gap-4'>
-            <div className='flex flex-row gap-2'>
+            <div className='flex gap-2'>
                 <Button className='border- border border-red-600 bg-transparent font-sans text-[13px] font-medium text-red-600 hover:bg-transparent'>
                     <FiPlusCircle className='size-auto' />
                     Add Bulk Product
@@ -70,7 +70,7 @@ const Products = () => {
                         </Button>
                     </DialogTrigger>
 
-                    <AddProductForm />
+                    <ProductForm title='ADD PRODUCT' buttonText='Add' />
                 </Dialog>
             </div>
 
@@ -114,8 +114,14 @@ const Products = () => {
                             <TableCell className='px-3 py-4 text-black'>
                                 {item.totalOut}
                             </TableCell>
-                            <TableCell className='flex flex-row mx-5 gap-2 justify-end'>
-                                <FaRegEdit className='size-7 rounded-full bg-[#85b98c] p-2 text-white' />
+                            <TableCell className='flex mx-5 gap-2 justify-end'>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <FaRegEdit className='size-7 rounded-full bg-[#85b98c] p-2 text-white' />
+                                    </DialogTrigger>
+
+                                    <ProductForm title='Edit Product' buttonText='Update' />
+                                </Dialog>
                                 <FaRegTrashAlt className='size-7 rounded-full bg-[#b55252] p-2 text-white' />
                             </TableCell>
                         </TableRow>
