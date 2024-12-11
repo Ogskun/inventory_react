@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table'
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
 import { FiPlusCircle } from 'react-icons/fi'
-import ProductForm from '@/components/modals/ProductForm'
+import { ProductForm, DeleteProductPrompt } from '@/components/modals'
 
 const TABLE_HEAD_TITLES: string[] = [
     'Product Code',
@@ -23,38 +23,55 @@ const TABLE_HEAD_TITLES: string[] = [
     '',
 ]
 
-type InventoryProductProps = {
-    productCode: string
-    productType: string
+export type InventoryProductProps = {
+    id: number
+    product_code: string
+    product_type: string
     make: string
-    makeModel: string
-    itemName: string
-    totalIn: number
-    totalOut: number
+    make_model: string
+    item_name: string
+    reorder_pt: string
+    remarks: string
 }
 
 const INVENTORY_ITEMS: InventoryProductProps[] = [
     {
-        productCode: '00001',
-        productType: 'string',
+        id: 1,
+        product_code: '00001',
+        product_type: 'string',
         make: 'string',
-        makeModel: 'string',
-        itemName: 'string',
-        totalIn: 0,
-        totalOut: 0,
+        make_model: 'string',
+        item_name: 'string',
+        reorder_pt: 'reorder 1',
+        remarks: '',
     },
     {
-        productCode: '00002',
-        productType: 'string',
+        id: 2,
+        product_code: '00002',
+        product_type: 'string',
         make: 'string',
-        makeModel: 'string',
-        itemName: 'string',
-        totalIn: 0,
-        totalOut: 0,
+        make_model: 'string',
+        item_name: 'string',
+        reorder_pt: 'reorder string',
+        remarks: 'None so far',
     },
 ]
 
+export type HandleAddProductProps = {}
+
+export type HandleUpdateProductProps = {
+    id: number
+}
+
 const Products = () => {
+    const handleAddProduct = ({}: HandleAddProductProps) => {
+        console.log('Product successfully added.')
+    }
+
+    const handleUpdateProduct = ({ id }: HandleUpdateProductProps) => {
+        console.log(`Product #${id} successfully updated.`)
+    }
+
     return (
         <div className='flex flex-col items-end gap-4'>
             <div className='flex gap-2'>
@@ -70,7 +87,12 @@ const Products = () => {
                         </Button>
                     </DialogTrigger>
 
-                    <ProductForm title='ADD PRODUCT' buttonText='Add' />
+                    <ProductForm
+                        title='Add Product'
+                        buttonText='Add'
+                        product={null}
+                        onclick={() => handleAddProduct}
+                    />
                 </Dialog>
             </div>
 
@@ -90,39 +112,55 @@ const Products = () => {
                 <TableBody>
                     {INVENTORY_ITEMS.map((item) => (
                         <TableRow
-                            key={item.productCode}
+                            key={item.product_code}
                             className='text-xs font-medium'
                         >
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.productCode}
+                                {item.product_code}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.productType}
+                                {item.product_type}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
                                 {item.make}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.makeModel}
+                                {item.make_model}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.itemName}
+                                {item.item_name}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.totalIn}
+                                {item.reorder_pt}
                             </TableCell>
                             <TableCell className='px-3 py-4 text-black'>
-                                {item.totalOut}
+                                {item.remarks}
                             </TableCell>
-                            <TableCell className='flex mx-5 gap-2 justify-end'>
+                            <TableCell className='mx-5 flex justify-end gap-2'>
                                 <Dialog>
                                     <DialogTrigger asChild>
-                                        <FaRegEdit className='size-7 rounded-full bg-[#85b98c] p-2 text-white' />
+                                        <FaRegEdit className='size-7 cursor-pointer rounded-full bg-[#85b98c] p-2 text-white' />
                                     </DialogTrigger>
 
-                                    <ProductForm title='Edit Product' buttonText='Update' />
+                                    <ProductForm
+                                        title='Edit Product'
+                                        buttonText='Update'
+                                        product={item}
+                                        onclick={() =>
+                                            handleUpdateProduct({ id: item.id })
+                                        }
+                                    />
                                 </Dialog>
-                                <FaRegTrashAlt className='size-7 rounded-full bg-[#b55252] p-2 text-white' />
+
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <FaRegTrashAlt className='size-7 cursor-pointer rounded-full bg-[#b55252] p-2 text-white' />
+                                    </DialogTrigger>
+
+                                    <DeleteProductPrompt
+                                        product_name={item.product_code}
+                                    />
+                                </Dialog>
                             </TableCell>
                         </TableRow>
                     ))}

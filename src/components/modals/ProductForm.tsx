@@ -1,5 +1,5 @@
 import { DialogTitle } from '@radix-ui/react-dialog'
-import { DialogContent, DialogHeader } from '../ui/dialog'
+import { DialogContent, DialogFooter, DialogHeader } from '../ui/dialog'
 import {
     Form,
     FormControl,
@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '../ui/button'
+import { HandleAddProductProps, HandleUpdateProductProps, InventoryProductProps } from '@/pages/Products'
 
 const PRODUCT_FORM_VALIDATION = z.object({
     product_code: z
@@ -50,19 +51,26 @@ type PRODUCT_FORM_VALUES = z.infer<typeof PRODUCT_FORM_VALIDATION>
 type ProductFormProps = {
     title: string
     buttonText: string
+    product: InventoryProductProps | null
+    onclick: (args: HandleAddProductProps | HandleUpdateProductProps) => void;
 }
 
-const ProductForm = ({ title, buttonText }: ProductFormProps) => {
+const ProductForm = ({
+    title,
+    buttonText,
+    product,
+    onclick,
+}: ProductFormProps) => {
     const productForm = useForm<PRODUCT_FORM_VALUES>({
         resolver: zodResolver(PRODUCT_FORM_VALIDATION),
         defaultValues: {
-            product_code: '',
-            product_type: '',
-            product_make: '',
-            product_make_model: '',
-            item_name: '',
-            reorder_pt: '',
-            remarks: '',
+            product_code: product?.product_code,
+            product_type: product?.product_type,
+            product_make: product?.make,
+            product_make_model: product?.make_model,
+            item_name: product?.item_name,
+            reorder_pt: product?.reorder_pt,
+            remarks: product?.remarks,
         },
     })
 
@@ -75,11 +83,7 @@ const ProductForm = ({ title, buttonText }: ProductFormProps) => {
             </DialogHeader>
 
             <Form {...productForm}>
-                <form
-                    onSubmit={productForm.handleSubmit(() =>
-                        console.log('submitted')
-                    )}
-                >
+                <form onSubmit={productForm.handleSubmit(onclick)}>
                     <div className='grid-col-1 grid grid-flow-row gap-4 md:grid-cols-2'>
                         <FormField
                             control={productForm.control}
@@ -193,15 +197,14 @@ const ProductForm = ({ title, buttonText }: ProductFormProps) => {
                             )}
                         />
                     </div>
-
-                    <div className='flex justify-end'>
+                    <DialogFooter>
                         <Button
                             type='submit'
                             className='mt-4 w-[150px] bg-red-700 font-sans text-[13px] font-medium text-white hover:bg-red-800'
                         >
                             {buttonText}
                         </Button>
-                    </div>
+                    </DialogFooter>
                 </form>
             </Form>
         </DialogContent>
